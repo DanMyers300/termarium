@@ -16,8 +16,7 @@ fn main() {
 
         println!("{}", fish);
 
-        // Add a delay to make the animation smooth
-        let delay = time::Duration::from_millis(500); // 500 milliseconds
+        let delay = time::Duration::from_millis(500);
         thread::sleep(delay);
     }
 }
