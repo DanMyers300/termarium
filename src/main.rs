@@ -3,41 +3,44 @@ use std::{
     thread, time,
 };
 use termion::terminal_size;
+use ctrlc;
 
 fn main() {
-    // Hide the cursor
     print!("\x1B[?25l");
-    io::stdout().flush().unwrap(); // Flush to ensure the cursor is hidden
+    io::stdout().flush().unwrap();
 
-    // Ensure the cursor is shown again when the program exits
     let _cleanup = CleanupCursor;
 
-    let mut fish1 = Fish::new(10, 5, 1, 1); // Starting at (10, 5), moving right and down
-    let mut fish2 = Fish::new(20, 10, -1, 1); // Starting at (20, 10), moving left and down
+    ctrlc::set_handler(move || {
+        print!("\x1B[?25h");
+        io::stdout().flush().unwrap();
+        std::process::exit(0);
+    })
+    .expect("Error setting Ctrl+C handler");
+
+    let mut fish1 = Fish::new(10, 5, 1, 1);
+    let mut fish2 = Fish::new(20, 10, -1, 1);
 
     loop {
         let (width, height) = terminal_size().unwrap();
         let terminal_width = width as isize;
         let terminal_height = height as isize;
 
-        // Clear the screen and render the aquarium
         print!("\x1B[2J\x1B[H");
 
-        // Render the fish
         fish1.render(terminal_width, terminal_height);
         fish2.render(terminal_width, terminal_height);
 
         io::stdout().flush().unwrap();
-
         thread::sleep(time::Duration::from_millis(500));
     }
 }
 
 struct Fish {
-    x: isize,  // Horizontal position
-    y: isize,  // Vertical position
-    dx: isize, // Horizontal direction (1 = right, -1 = left)
-    dy: isize, // Vertical direction (1 = down, -1 = up)
+    x: isize,
+    y: isize,
+    dx: isize,
+    dy: isize,
 }
 
 impl Fish {
@@ -46,8 +49,8 @@ impl Fish {
     }
 
     fn render(&mut self, terminal_width: isize, terminal_height: isize) {
-        self.x = self.x.clamp(0, terminal_width - 5); // Fish width is 5
-        self.y = self.y.clamp(0, terminal_height - 2); // Fish height is 2
+        self.x = self.x.clamp(0, terminal_width - 5);
+        self.y = self.y.clamp(0, terminal_height - 2);
 
         let fish = vec![
             "  _",
@@ -61,32 +64,27 @@ impl Fish {
             }
         }
 
-        // Update position
         let next_y = self.y + self.dy;
         let next_x = self.x + self.dx;
 
-        // Check for vertical boundaries and reverse direction if needed
         if next_y <= 0 || next_y >= terminal_height - 2 {
-            self.dy = -self.dy; // Reverse vertical direction
+            self.dy = -self.dy;
         } else {
-            self.y = next_y; // Update position only if within bounds
+            self.y = next_y;
         }
 
-        // Check for horizontal boundaries and reverse direction if needed
         if next_x <= 0 || next_x >= terminal_width - 5 {
-            self.dx = -self.dx; // Reverse horizontal direction
+            self.dx = -self.dx;
         } else {
-            self.x = next_x; // Update position only if within bounds
+            self.x = next_x;
         }
     }
 }
 
-// Struct to ensure the cursor is shown again when the program exits
 struct CleanupCursor;
 
 impl Drop for CleanupCursor {
     fn drop(&mut self) {
-        // Show the cursor
         print!("\x1B[?25h");
         io::stdout().flush().unwrap();
     }
