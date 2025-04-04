@@ -12,7 +12,6 @@ fn main() {
     // Ensure the cursor is shown again when the program exits
     let _cleanup = CleanupCursor;
 
-    // Initialize fish states
     let mut fish1 = Fish::new(10, 5, 1, 1); // Starting at (10, 5), moving right and down
     let mut fish2 = Fish::new(20, 10, -1, 1); // Starting at (20, 10), moving left and down
 
