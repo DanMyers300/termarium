@@ -1,47 +1,99 @@
-use std::{thread, time};
+use std::{
+    io::{self, Write},
+    thread, time,
+};
+use termion::terminal_size;
 
 fn main() {
-    let mut x = 0; // Horizontal position
-    let mut y = 0; // Vertical position
-    let mut dx = 1; // Horizontal direction (1 = right, -1 = left)
-    let mut dy = 1; // Vertical direction (1 = down, -1 = up)
+    // Hide the cursor
+    print!("\x1B[?25l");
+    io::stdout().flush().unwrap(); // Flush to ensure the cursor is hidden
 
-    let terminal_width = 60;
-    let terminal_height = 30;
+    // Ensure the cursor is shown again when the program exits
+    let _cleanup = CleanupCursor;
+
+    // Initialize fish states
+    let mut fish1 = Fish::new(10, 5, 1, 1); // Starting at (10, 5), moving right and down
+    let mut fish2 = Fish::new(20, 10, -1, 1); // Starting at (20, 10), moving left and down
 
     loop {
-        // ANSI escape code to clear the screen
-        print!("\x1B[2J");
+        // Dynamically get the terminal size
+        let (width, height) = terminal_size().unwrap();
+        let terminal_width = width as isize;
+        let terminal_height = height as isize;
 
-        // ANSI escape code to move the cursor to (y, x)
-        print!("\x1B[{};{}H", y + 1, x + 1);
+        // Clear the screen and render the aquarium
+        print!("\x1B[2J\x1B[H");
 
-        // Define the fish
-        let fish = r#"
-              _
-            ><_>
-        "#;
+        // Render the fish
+        fish1.render(terminal_width, terminal_height);
+        fish2.render(terminal_width, terminal_height);
 
-        // Print the fish
-        println!("{}", fish);
-
-        // Update position
-        x += dx;
-        y += dy;
-
-        // Check for horizontal boundaries and reverse direction if needed
-        if x <= 0 || x >= terminal_width - 6 { // Adjust for fish width
-            dx = -dx; // Reverse horizontal direction
-        }
-
-        // Check for vertical boundaries and reverse direction if needed
-        if y <= 0 || y >= terminal_height - 3 { // Adjust for fish height
-            dy = -dy; // Reverse vertical direction
-        }
+        // Flush the output to ensure it renders immediately
+        io::stdout().flush().unwrap();
 
         // Delay for smooth animation
-        let delay = time::Duration::from_millis(300);
-        thread::sleep(delay);
+        thread::sleep(time::Duration::from_millis(100));
+    }
+}
+
+// Struct to represent a fish
+struct Fish {
+    x: isize,  // Horizontal position
+    y: isize,  // Vertical position
+    dx: isize, // Horizontal direction (1 = right, -1 = left)
+    dy: isize, // Vertical direction (1 = down, -1 = up)
+}
+
+impl Fish {
+    fn new(x: isize, y: isize, dx: isize, dy: isize) -> Self {
+        Self { x, y, dx, dy }
+    }
+
+    fn render(&mut self, terminal_width: isize, terminal_height: isize) {
+        self.x = self.x.clamp(0, terminal_width - 5); // Fish width is 5
+        self.y = self.y.clamp(0, terminal_height - 2); // Fish height is 2
+
+        let fish = vec![
+            "  _",
+            "><_>",
+        ];
+
+        for (i, line) in fish.iter().enumerate() {
+            let fish_y = self.y + i as isize;
+            if fish_y >= 0 && fish_y < terminal_height {
+                print!("\x1B[{};{}H{}", fish_y + 1, self.x + 1, line);
+            }
+        }
+
+        // Update position
+        let next_y = self.y + self.dy;
+        let next_x = self.x + self.dx;
+
+        // Check for vertical boundaries and reverse direction if needed
+        if next_y <= 0 || next_y >= terminal_height - 2 {
+            self.dy = -self.dy; // Reverse vertical direction
+        } else {
+            self.y = next_y; // Update position only if within bounds
+        }
+
+        // Check for horizontal boundaries and reverse direction if needed
+        if next_x <= 0 || next_x >= terminal_width - 5 {
+            self.dx = -self.dx; // Reverse horizontal direction
+        } else {
+            self.x = next_x; // Update position only if within bounds
+        }
+    }
+}
+
+// Struct to ensure the cursor is shown again when the program exits
+struct CleanupCursor;
+
+impl Drop for CleanupCursor {
+    fn drop(&mut self) {
+        // Show the cursor
+        print!("\x1B[?25h");
+        io::stdout().flush().unwrap();
     }
 }
 
