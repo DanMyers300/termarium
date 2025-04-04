@@ -16,7 +16,6 @@ fn main() {
     let mut fish2 = Fish::new(20, 10, -1, 1); // Starting at (20, 10), moving left and down
 
     loop {
-        // Dynamically get the terminal size
         let (width, height) = terminal_size().unwrap();
         let terminal_width = width as isize;
         let terminal_height = height as isize;
@@ -28,11 +27,9 @@ fn main() {
         fish1.render(terminal_width, terminal_height);
         fish2.render(terminal_width, terminal_height);
 
-        // Flush the output to ensure it renders immediately
         io::stdout().flush().unwrap();
 
-        // Delay for smooth animation
-        thread::sleep(time::Duration::from_millis(100));
+        thread::sleep(time::Duration::from_millis(500));
     }
 }
 
