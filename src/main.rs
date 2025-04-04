@@ -37,7 +37,6 @@ fn main() {
     }
 }
 
-// Struct to represent a fish
 struct Fish {
     x: isize,  // Horizontal position
     y: isize,  // Vertical position
