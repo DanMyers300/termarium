@@ -4,15 +4,21 @@ use std::{
 };
 use termion::terminal_size;
 
-mod fish;
-use fish::Fish;
+mod aquarium;
+use aquarium::Aquarium;
+
+mod cleanup;
+use cleanup::CleanupCursor;
 
 fn main() {
+    // Remove cursor from screen
     print!("\x1B[?25l");
     io::stdout().flush().unwrap();
 
+    // Show cursor on end
     let _cleanup = CleanupCursor;
 
+    // Handle ctrl+c
     ctrlc::set_handler(move || {
         print!("\x1B[?25h");
         io::stdout().flush().unwrap();
@@ -20,30 +26,21 @@ fn main() {
     })
     .expect("Error setting Ctrl+C handler");
 
-    let mut fish1 = Fish::new(10, 5, 1, 1);
-    let mut fish2 = Fish::new(20, 10, -1, 1);
+    // Create the aquarium
+    let mut aquarium = Aquarium::new();
 
     loop {
         let (width, height) = terminal_size().unwrap();
-        let terminal_width = width as isize;
-        let terminal_height = height as isize;
+        let term_width = width as isize;
+        let term_height = height as isize;
 
+        // Clear screen & move cursor
         print!("\x1B[2J\x1B[H");
 
-        fish1.render(terminal_width, terminal_height);
-        fish2.render(terminal_width, terminal_height);
+        // Render the aquarium
+        aquarium.render(term_width, term_height);
 
         io::stdout().flush().unwrap();
         thread::sleep(time::Duration::from_millis(500));
     }
 }
-
-struct CleanupCursor;
-
-impl Drop for CleanupCursor {
-    fn drop(&mut self) {
-        print!("\x1B[?25h");
-        io::stdout().flush().unwrap();
-    }
-}
-
