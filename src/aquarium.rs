@@ -15,7 +15,7 @@ impl Aquarium {
         Self {
             fish1: Fish::new(10, 5, 1, 1),
             fish2: Fish::new(20, 10, -1, 1),
-            bubble1: Bubble::new(200, 200, -1),
+            bubble1: Bubble::new(200, 200, -1, true),
         }
     }
 
