@@ -26,9 +26,10 @@ impl Bubble {
     self.y = self.y.clamp(0, term_height - 2);
 
     let bubble = if self.large_bubble {
-        ["∘˙○˚.•"]
+        ["∘˙○˚.•",
+         " .•"]
     } else {
-        ["｡˚○"]
+        ["｡˚○", ""]
     };
 
     // Render the bubble at its current position
