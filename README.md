@@ -1,6 +1,6 @@
 # Rust Terminal Aquarium
 
-Welcome to **Rust Terminal Aquarium**, also known as **Termarium**! This is a fun and interactive terminal-based aquarium simulation built in Rust. Watch fish swim around and bubbles rise to the surface, all rendered dynamically in your terminal window. The project also includes a **Nix flake** for easy reproducibility and development setup.
+Welcome to **Termarium**! This is a terminal-based aquarium simulation built in Rust. Watch fish swim around and bubbles rise to the surface, all rendered dynamically in your terminal window.
 
 ---
 
