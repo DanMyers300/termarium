@@ -1,3 +1,5 @@
+use rand::Rng;
+
 mod fish;
 use fish::Fish;
 
@@ -7,7 +9,7 @@ use bubble::Bubble;
 pub struct Aquarium {
     fish1: Fish,
     fish2: Fish,
-    bubble1: Bubble,
+    bubbles: Vec<Bubble>,
 }
 
 impl Aquarium {
@@ -15,13 +17,32 @@ impl Aquarium {
         Self {
             fish1: Fish::new(10, 5, 1, 1),
             fish2: Fish::new(20, 10, -1, 1),
-            bubble1: Bubble::new(200, 200, -1, false),
+            bubbles: Vec::new(),
         }
     }
 
     pub fn render(&mut self, term_width: isize, term_height: isize) {
+        // Render fish
         self.fish1.render(term_width, term_height);
         self.fish2.render(term_width, term_height);
-        self.bubble1.render(term_height);
+
+        // Render bubbles
+        for bubble in &mut self.bubbles {
+            bubble.render(term_height);
+        }
+
+        self.generate_bubbles(term_width, term_height);
+    }
+
+    fn generate_bubbles(&mut self, term_width: isize, term_height: isize) {
+        let mut rng = rand::rng();
+
+        if rng.random_range(0..100) < 15 {
+            let x = rng.random_range(0..term_width as i32) as isize;
+            let y = term_height - 1;
+
+            self.bubbles.push(Bubble::new(x, y, -1, false));
+        }
     }
 }
+
