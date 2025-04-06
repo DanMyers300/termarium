@@ -29,7 +29,7 @@ impl Bubble {
         ["∘˙○˚.•",
          " .•"]
     } else {
-        ["｡˚○", ""]
+        ["˚○", "｡"]
     };
 
     // Render the bubble at its current position
