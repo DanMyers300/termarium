@@ -32,16 +32,14 @@ impl Bubble {
         ["˚○", "｡"]
     };
 
-    // Render the bubble at its current position
     for (i, line) in bubble.iter().enumerate() {
       let bubble_y = self.y + i as isize;
       if bubble_y >= 0 && bubble_y < term_height {
-        // Properly position the cursor using ANSI escape codes
         print!(
-          "\x1B[{};{}H{}", // Print the bubble
-          bubble_y + 1,  // Vertical position (1-based index for terminal)
-          self.x + 1,    // Horizontal position (1-based index for terminal)
-          line       // Bubble content
+          "\x1B[{};{}H{}",
+          bubble_y + 1,
+          self.x + 1,
+          line
         );
       }
     }
@@ -52,8 +50,6 @@ impl Bubble {
     // Check if the bubble hits the top boundary
     if next_y <= 0 {
       self.is_active = false;
-    } else if next_y >= term_height - 2 {
-      self.dy = -self.dy; // Reverse direction if it hits the bottom boundary
     } else {
       self.y = next_y; // Update position if within bounds
     }
