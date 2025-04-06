@@ -13,10 +13,8 @@ use cleanup::CleanupCursor;
 fn main() {
     setup();
 
-    // Show cursor on end
     let _cleanup = CleanupCursor;
 
-    // Create the aquarium
     let mut aquarium = Aquarium::new();
 
     loop {
@@ -39,7 +37,6 @@ fn setup() {
     print!("\x1B[?25l");
     io::stdout().flush().unwrap();
 
-    // Handle ctrl+c
     ctrlc::set_handler(move || {
         print!("\x1B[?25h");
         io::stdout().flush().unwrap();
