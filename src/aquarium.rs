@@ -6,10 +6,14 @@ use fish::Fish;
 mod bubble;
 use bubble::Bubble;
 
+mod plant;
+use plant::Plant;
+
 pub struct Aquarium {
   fish1: Fish,
   fish2: Fish,
   bubbles: Vec<Bubble>,
+  plant: Plant,
 }
 
 impl Aquarium {
@@ -18,6 +22,7 @@ impl Aquarium {
       fish1: Fish::new(10, 5, 1, 1),
       fish2: Fish::new(20, 10, -1, 1),
       bubbles: Vec::new(),
+      plant: Plant::new(20, -1)
     }
   }
 
@@ -30,6 +35,7 @@ impl Aquarium {
     }
 
     self.generate_bubbles(term_width, term_height);
+    self.plant.render();
   }
 
   fn generate_bubbles(&mut self, term_width: isize, term_height: isize) {
