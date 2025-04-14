@@ -22,11 +22,13 @@ impl Aquarium {
       fish1: Fish::new(10, 5, 1, 1),
       fish2: Fish::new(20, 10, -1, 1),
       bubbles: Vec::new(),
-      plant: Plant::new(20, -1)
+      plant: Plant::new(20, 0)
     }
   }
 
   pub fn render(&mut self, term_width: isize, term_height: isize) {
+    self.plant.update_y(term_height - 4);
+
     self.fish1.render(term_width, term_height);
     self.fish2.render(term_width, term_height);
 

@@ -5,10 +5,11 @@ pub struct Plant {
 
 impl Plant {
   pub fn new(x: isize, y: isize) -> Self {
-    Self {
-      x,
-      y
-    }
+    Self { x, y }
+  }
+
+  pub fn update_y(&mut self, y: isize) {
+    self.y = y;
   }
 
   pub fn render(&mut self) {
@@ -30,3 +31,4 @@ impl Plant {
     }
   }
 }
+

@@ -28,7 +28,7 @@ fn main() {
         aquarium.render(term_width, term_height);
 
         io::stdout().flush().unwrap();
-        thread::sleep(time::Duration::from_millis(500));
+        thread::sleep(time::Duration::from_millis(400));
     }
 }
 
