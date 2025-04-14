@@ -2,7 +2,7 @@ pub struct Bubble {
   x: isize,
   y: isize,
   dy: isize,
-  is_active: bool,
+  pub is_active: bool,
   large_bubble: bool,
 }
 
