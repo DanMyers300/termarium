@@ -13,9 +13,7 @@ pub struct Aquarium {
   fish1: Fish,
   fish2: Fish,
   bubbles: Vec<Bubble>,
-  plant1: Plant,
-  plant2: Plant,
-  plant3: Plant,
+  plants: Vec<Plant>
 }
 
 impl Aquarium {
@@ -24,16 +22,22 @@ impl Aquarium {
       fish1: Fish::new(10, 5, 1, 1),
       fish2: Fish::new(20, 10, -1, 1),
       bubbles: Vec::new(),
-      plant1: Plant::new(20, 0),
-      plant2: Plant::new(50, 0),
-      plant3: Plant::new(90, 0)
+      plants: vec![
+        Plant::new(20, 0),
+        Plant::new(50, 0),
+        Plant::new(90, 0),
+        Plant::new(110, 0),
+        Plant::new(150, 0),
+        Plant::new(190, 0),
+      ]
     }
   }
 
   pub fn render(&mut self, term_width: isize, term_height: isize) {
-    self.plant1.update_y(term_height - 4);
-    self.plant2.update_y(term_height - 4);
-    self.plant3.update_y(term_height - 4);
+
+    for plant in &mut self.plants {
+      plant.update_y(term_height - 4);
+    };
 
     self.fish1.render(term_width, term_height);
     self.fish2.render(term_width, term_height);
@@ -44,10 +48,10 @@ impl Aquarium {
 
     self.bubbles.retain(|bubble| bubble.is_active);
     self.generate_bubbles(term_width, term_height);
-
-    self.plant1.render();
-    self.plant2.render();
-    self.plant3.render();
+    
+    for plant in &mut self.plants {
+      plant.render();
+    }
   }
 
   fn generate_bubbles(&mut self, term_width: isize, term_height: isize) {

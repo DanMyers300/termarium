@@ -28,14 +28,19 @@ impl Fish {
       "><_>",
     ];
 
+    let color_code = "\x1B[34m";
+    let reset_code = "\x1B[0m";
+
     for (i, line) in fish.iter().enumerate() {
       let fish_y = self.y + i as isize;
       if fish_y >= 0 && fish_y < term_height {
         print!(
-          "\x1B[{};{}H{}",
+          "\x1B[{};{}H{}{}{}",
           fish_y + 1,
           self.x + 1,
-          line
+          color_code,
+          line,
+          reset_code
         );
       }
     }

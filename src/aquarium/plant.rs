@@ -46,17 +46,22 @@ impl Plant {
             ],
         ];
 
+        let color_code = "\x1B[32m"; // ANSI code for green text
+        let reset_code = "\x1B[0m"; // ANSI code to reset text formatting
+
         // Select the current plant state based on the frame
         let plant = &plant_states[self.frame];
 
-        // Render the selected plant state
+        // Render the selected plant state with color
         for (i, line) in plant.iter().enumerate() {
             let plant_y = self.y + i as isize;
             print!(
-                "\x1B[{};{}H{}",
+                "\x1B[{};{}H{}{}{}",
                 plant_y + 1,
                 self.x + 1,
-                line
+                color_code, // Apply the color
+                line,
+                reset_code  // Reset the color after the line
             );
         }
 

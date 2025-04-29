@@ -28,7 +28,7 @@ fn main() {
         aquarium.render(term_width, term_height);
 
         io::stdout().flush().unwrap();
-        thread::sleep(time::Duration::from_millis(400));
+        thread::sleep(time::Duration::from_millis(600));
     }
 }
 
@@ -38,6 +38,7 @@ fn setup() {
     io::stdout().flush().unwrap();
 
     ctrlc::set_handler(move || {
+        // Show cursor again on cleanup
         print!("\x1B[?25h");
         io::stdout().flush().unwrap();
         std::process::exit(0);
