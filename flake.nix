@@ -16,10 +16,12 @@
     };
   in {
     devShell.${system} = pkgs.mkShell {
-      name = "Termarium";
+      name = "termarium";
       buildInputs = with pkgs; [
         gcc
       ];
     };
+
+    packages.${system}.default = pkgs.callPackage ./nix/default.nix {};
   };
 }
