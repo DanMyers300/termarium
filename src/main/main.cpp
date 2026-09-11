@@ -1,8 +1,16 @@
-#include <iostream>
+#include "render.hpp"
+#include "clearScreen.hpp"
+#include <thread>
+#include <chrono>
 
 int main() {
+
+  clearScreen();
+
   while (true) {
-    std::cout << "\e[?25l\033[2J";
+    render();
+    std::this_thread::sleep_for(std::chrono::microseconds(16667)); // ~60 fps
   }
+
   return 0;
 }
