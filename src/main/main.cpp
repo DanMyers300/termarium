@@ -1,6 +1,8 @@
 #include <iostream>
 
 int main() {
-  std::cout << "\033[2J";
+  while (true) {
+    std::cout << "\e[?25l\033[2J";
+  }
   return 0;
 }
