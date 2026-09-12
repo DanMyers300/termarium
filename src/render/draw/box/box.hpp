@@ -3,6 +3,6 @@
 
 #include <string>
 
-int box(std::string& buf, int rows, int cols);
+void box(std::string& buf, int rows, int cols);
 
 #endif // BOX_HPP

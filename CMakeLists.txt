@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 project(Termarium)
 
 file(GLOB_RECURSE sources
-  src/main/*.cpp
+  src/*.cpp
   src/render/*.cpp
-  src/clearScreen/*.cpp
-  src/box/*.cpp
+  src/render/draw/*.cpp
+  src/render/draw/box/*.cpp
+  src/render/draw/clearScreen/*.cpp
 )
 
 set(CPACK_PACKAGE_NAME "Termarium")
@@ -16,9 +17,11 @@ set(CPACK_MONOLITHIC_INSTALL 1)
 add_executable(termarium ${sources})
 
 target_include_directories(termarium PRIVATE 
+  src
   src/render
-  src/clearScreen
-  src/box
+  src/render/draw
+  src/render/draw/box
+  src/render/draw/clearScreen
 )
 
 install(TARGETS termarium RUNTIME DESTINATION bin)

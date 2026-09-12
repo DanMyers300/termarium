@@ -1,11 +1,10 @@
 #include "render.hpp"
-#include "box.hpp"
+#include "draw.hpp"
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <string>
 
-int render() {
-
+void render() {
   struct winsize window_size;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
 
@@ -14,9 +13,7 @@ int render() {
 
   std::string buf;
 
-  box(buf, rows, cols);
+  draw(buf, rows, cols);
 
   write(STDOUT_FILENO, buf.c_str(), buf.size());
-
-  return 0;
 }
