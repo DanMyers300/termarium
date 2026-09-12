@@ -3,7 +3,7 @@
 #include "clearScreen.hpp"
 #include <string>
 
-void draw(std::string& buf, int rows, int cols) {
+void draw(std::string& curr, int rows, int cols) {
   clearScreen();
-  box(buf, rows, cols);
+  box(curr, rows, cols);
 }
