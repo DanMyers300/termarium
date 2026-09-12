@@ -1,5 +1,5 @@
 #include "render.hpp"
-#include "box.hpp"
+#include "draw.hpp"
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <string>
@@ -16,7 +16,7 @@ void render() {
 
   std::vector<Cell> curr(rows * cols);
 
-  box(curr, rows, cols);
+  draw(curr, rows, cols);
 
   if (prev.size() != curr.size()) {
     prev.assign(curr.size(), Cell{});
