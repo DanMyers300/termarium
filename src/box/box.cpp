@@ -1,13 +1,19 @@
-#include <string>
+#include "box.hpp"
+#include "render.hpp"
+#include <vector>
 
-int box(std::string& buf, int rows, int cols) {
-  buf += "\033[1;1H" + std::string(cols, '_');
-  buf += "\033[" + std::to_string(rows - 1) + ";1H" + std::string(cols, '_');
+void box(std::vector<Cell>& buf, int rows, int cols) {
+  auto set = [&](int r, int c, char ch) {
+    buf[r * cols + c].ch = ch;
+  };
 
-  for (int i = 2; i < rows; i++) {
-    buf += "\033[" + std::to_string(i) + ";1H" + std::string(1, '|');
-    buf += "\033[" + std::to_string(i) + ";" + std::to_string(cols) + "H" + std::string(1, '|');
+  for (int c = 0; c < cols; c++) {
+    set(0, c, '_');
+    set(rows - 1, c, '_');
   }
 
-  return 0;
+  for (int r = 0; r < rows; r++) {
+    set(r, 0, '|');
+    set(r, cols - 1, '|');
+  }
 }

@@ -15,6 +15,8 @@ set(CPACK_MONOLITHIC_INSTALL 1)
 
 add_executable(termarium ${sources})
 
+target_compile_features(termarium PRIVATE cxx_std_20)
+
 target_include_directories(termarium PRIVATE 
   src/render
   src/clearScreen
