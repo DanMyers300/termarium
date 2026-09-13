@@ -16,18 +16,19 @@ void render() {
 
   std::vector<Cell> curr(rows * cols);
 
+  bool has_prev = prev.size() == curr.size();
+
   draw(curr, rows, cols);
 
   std::string buf;
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       int i = r * cols + c;
-      if (prev[i] == curr[i]) continue;
+      if (!has_prev && prev[i] == curr[i]) continue;
       buf += "\033[" + std::to_string(r+1) + ";" + std::to_string(c+1) + "H";
       buf += curr[i].ch;
     }
   }
-
 
   write(STDOUT_FILENO, buf.c_str(), buf.size());
 
