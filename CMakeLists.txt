@@ -6,7 +6,6 @@ file(GLOB_RECURSE sources
   src/render/*.cpp
   src/render/draw/*.cpp
   src/render/draw/box/*.cpp
-  src/render/draw/clearScreen/*.cpp
 )
 
 set(CPACK_PACKAGE_NAME "Termarium")
@@ -21,7 +20,6 @@ target_include_directories(termarium PRIVATE
   src/render
   src/render/draw
   src/render/draw/box
-  src/render/draw/clearScreen
 )
 
 install(TARGETS termarium RUNTIME DESTINATION bin)

@@ -4,10 +4,14 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <iostream>
 
 static std::vector<Cell> prev;
 
 void render() {
+
+  std::cout << "\e[?25l";
+
   struct winsize window_size;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
 
@@ -24,7 +28,7 @@ void render() {
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       int i = r * cols + c;
-      if (!has_prev && prev[i] == curr[i]) continue;
+      if (has_prev && prev[i] == curr[i]) continue;
       buf += "\033[" + std::to_string(r+1) + ";" + std::to_string(c+1) + "H";
       buf += curr[i].ch;
     }
