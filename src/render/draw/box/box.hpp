@@ -4,6 +4,6 @@
 #include "render.hpp"
 #include <vector>
 
-void box(std::vector<Cell>& buf, int rows, int cols);
+void box(std::vector<Cell>& curr, int rows, int cols);
 
 #endif // BOX_HPP
