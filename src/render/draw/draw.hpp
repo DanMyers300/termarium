@@ -1,8 +1,9 @@
 #ifndef DRAW_HPP
 #define DRAW_HPP
 
-#include <string>
+#include "render.hpp"
+#include <vector>
 
-void draw(std::string& buf, int rows, int cols);
+void draw(std::vector<Cell>& buf, int rows, int cols);
 
 #endif // DRAW_HPP

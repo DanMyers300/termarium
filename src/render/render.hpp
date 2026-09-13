@@ -5,7 +5,7 @@ struct Cell {
   char ch = ' ';
 
   bool operator==(const Cell& other) {
-    ch == other.ch;
+    return ch == other.ch;
   };
 };
 

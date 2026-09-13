@@ -1,9 +1,10 @@
 #include "draw.hpp"
 #include "box.hpp"
+#include "render.hpp"
 #include "clearScreen.hpp"
-#include <string>
+#include <vector>
 
-void draw(std::string& curr, int rows, int cols) {
+void draw(std::vector<Cell>& curr, int rows, int cols) {
   clearScreen();
   box(curr, rows, cols);
 }
