@@ -4,13 +4,10 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
-#include <iostream>
 
 static std::vector<Cell> prev;
 
 void render() {
-
-  std::cout << "\e[?25l";
 
   struct winsize window_size;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size);
@@ -24,7 +21,7 @@ void render() {
 
   draw(curr, rows, cols);
 
-  std::string buf;
+  std::string buf = "\033[?25l";
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       int i = r * cols + c;
