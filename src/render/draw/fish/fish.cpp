@@ -12,7 +12,7 @@ static int dirFishY;
 
 void drawFish(std::vector<Cell>& curr, int rows, int cols, Fish fish) {
   for (int i = 0; i < fish.text.length(); i++) {
-    curr[fish.x * cols + fish.y + i].ch = fish.text[i];
+    curr[fish.y * cols + fish.x + i].ch = fish.text[i];
   }
 }
 
@@ -23,19 +23,13 @@ void choosePoint(int rows, int cols) {
 
 void fish(std::vector<Cell>& curr, int rows, int cols) {
   static Fish firstFish {
-    rows / 2,
     cols / 2,
+    rows / 2,
   };
 
   if (!dirFishY || !dirFishX || (firstFish.x == dirFishX && firstFish.y == dirFishY)) {
     choosePoint(rows, cols);
   }
-
-  std::ofstream logFile("log.txt", std::ios::app);
-
-  logFile << dirFishX << "|" << dirFishY << "\n";
-
-  logFile.close();
 
   if (firstFish.x < dirFishX) {
     firstFish.x += 1;
