@@ -18,6 +18,9 @@
     devShell.${system} = pkgs.mkShell {
       name = "termarium";
       buildInputs = with pkgs; [
+        cargo
+        rustc
+        rustfmt
         gcc
       ];
     };
